@@ -15,6 +15,7 @@ const createMatchFunction = (route) => {
 
 };
 
+console.log('registering router-outlet')
 customElements.define(
     "router-outlet",
     class extends HTMLElement {
@@ -27,12 +28,16 @@ customElements.define(
                 {
                     path: /\/stocks\/(?<ticker>\w+\/?)/,
                     component: 'stock-analysis'
-                }
+                },
+                {
+                    path: /.+/,
+                    component: 'stock-list'
+                },
             ];
 
             this.parseRouteTable();
 
-            window.navigation.addEventListener('navigate', navigateEvent => {
+            navigation.addEventListener('navigate', navigateEvent => {
                 // Exit early if this navigation shouldn't be intercepted.
                 // The properties to look at are discussed later in the article.
                 if (shouldNotIntercept(navigateEvent)) return;
@@ -51,12 +56,6 @@ customElements.define(
             this.routes.forEach(route => {
                 route.matchFn = createMatchFunction(route);
             });
-        }
-
-        connectedCallback() {
-            this.shadowRoot.querySelector('#logo img').setAttribute('src', this.dataset.imageurl);
-            this.shadowRoot.getElementById('name').innerText = this.dataset.name;
-            this.shadowRoot.firstChild.href = `/stocks/${this.dataset.ticker}`;
         }
 
         setContent(elementName) {
