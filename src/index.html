@@ -5,10 +5,14 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Stock Analysis</title>
   <link href="./index.css" rel="stylesheet">
-  <script type="module" src="./components/stock-card.js"></script>
-  <script type="module" src="./components/databind.js"></script>
+  <script type="module" src="./components/stock-card/index.js"></script>
+  <script type="module" src="./pages/stock-list/index.js"></script>
+  <script type="module" src="./pages/stock-analysis/index.js"></script>
+  <script type="module" src="./components/router/index.js"></script>
+
+  
 </head>
 
 <body class="bg-white dark:bg-gray-900 work-sans leading-normal text-base tracking-normal">
@@ -16,50 +20,8 @@
     <h1 class="text-3xl font-bold">Sanity Stock Exchange</h1>
   </header>
   <main class="container mx-auto">
-    <h2 class="text-2xl mb-4">Main listing</h2>
-    <div id="listing-container" class="grid grid-cols-4 gap-2 place-items-stretch h-56">
-      <p>Loading stocks...</p>
-    </div>
-
-
-    <h2>Raw</h2>
-    <pre>
-    </pre>
+    <router-outlet />
   </main>
-
-  <script>
-
-    let PROJECT_ID = "f2bfmltz";
-    let DATASET = "production";
-
-    let QUERY = encodeURIComponent('*[_type == "stock"]{ticker, name, "imageUrl": logo.asset->url}');
-
-    // Compose the URL for your project's endpoint and add the query
-    let URL = `https://${PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${DATASET}?query=${QUERY}`;
-
-
-    fetch(URL)
-      .then((res) => res.json())
-      .then(({ result }) => {
-        // get the list element, and the first item
-        let list = document.querySelector("#listing-container");
-        let firstListItem = document.querySelector("#listing-container p");
-
-        if (result.length > 0) {
-          // remove the placeholder content
-          list.removeChild(firstListItem);
-
-          result.forEach((stock) => {
-            list.appendChild(databind("stock-card", stock));
-          });
-          let pre = document.querySelector("pre");
-          // add the raw data to the preformatted element
-          pre.textContent = JSON.stringify(result, null, 2);
-        }
-      })
-      .catch((err) => console.error(err));
-
-  </script>
 </body>
 
 </html>
