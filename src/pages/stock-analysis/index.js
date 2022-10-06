@@ -1,4 +1,4 @@
-import templateHtml from "bundle-text:./index.html";
+import templateHtml from "bundle-text:./template.html";
 
 customElements.define(
     "stock-analysis",
