@@ -6,7 +6,6 @@ customElements.define(
         constructor() {
             super();
 
-            this.ticker = 'AAPL';
             const shadowRoot = this.attachShadow({ mode: "open" });
             shadowRoot.innerHTML = templateHtml;
         }
@@ -15,7 +14,7 @@ customElements.define(
             let PROJECT_ID = "f2bfmltz";
             let DATASET = "production";
             
-            let QUERY = encodeURIComponent(`*[_type == "stock" && ticker == "${this.ticker}"]{ticker, name, analysis, "imageUrl": logo.asset->url}`);
+            let QUERY = encodeURIComponent(`*[_type == "stock" && ticker == "${window.route.params.ticker}"]{ticker, name, analysis, "imageUrl": logo.asset->url}`);
             
             // Compose the URL for your project's endpoint and add the query
             let URL = `https://${PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${DATASET}?query=${QUERY}`;

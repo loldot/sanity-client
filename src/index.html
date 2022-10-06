@@ -10,6 +10,7 @@
   <script type="module" src="./components/stock-card/index.js"></script>
   <script type="module" src="./pages/stock-list/index.js"></script>
   <script type="module" src="./pages/stock-analysis/index.js"></script> 
+  <script type="module" src="./components/router/index.js"></script> 
 
 </head>
 
@@ -18,7 +19,7 @@
     <h1 class="text-3xl font-bold">Sanity Stock Exchange</h1>
   </header>
   <main class="container mx-auto">
-    <stock-list />
+    <router-outlet />
   </main>
 </body>
 
